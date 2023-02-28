@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Category;
 use App\Entity\Comment;
+use App\Form\ArticleType;
 use App\Form\CommentType;
 use App\Form\SearchFormType;
 use DateTimeImmutable;
@@ -32,6 +33,40 @@ class ArticleController extends AbstractController
 
         return $this->render('article/index.html.twig', [
             'articles'=>$articles,
+        ]);
+    }
+
+    #[Route('/article/add', name: 'app_article_add')]
+    public function add(Request $request): Response
+    {
+        $add = $this->createForm(ArticleType::class);
+        $add->handleRequest($request);
+
+        if ($add->isSubmitted() && $add->isValid()) {
+            $article = new Article();
+
+
+            $article
+                ->setTitle($add->get('title')->getData())
+                ->setAuthor($this->getUser())
+                ->setContent($add->get('content')->getData())
+                ->setSlug($add->get('slug')->getData())
+                ->setStatus($add->get('status')->getData())
+                ->setFeaturedImage($add->get('featuredImage')->getData())
+                ->setCategory($add->get('category')->getData());
+
+            $this->entityManager->persist($article);
+            $this->entityManager->flush();
+
+            // rediriger vers la page de l'article créé
+            return $this->redirectToRoute('app_article_slug', [
+                'slug' => $article->getSlug()
+            ]);
+        }
+
+
+        return $this->render('article/add.html.twig', [
+        'add'=>$add->createView(),
         ]);
     }
 
