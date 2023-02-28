@@ -3,5 +3,36 @@
 {% block title %}Blog Johan | Accueil{% endblock %}
 
 {% block body %}
+    <div class="sidebar">
+        <h3>Catégories</h3>
+        <ul>
+            {% for category in categories %}
+                <li><a href="{{ path('app_article_by_category', { 'category': category.id }) }}">{{ category.name }}</a></li>
+
+            {% endfor %}
+        </ul>
+    </div>
+    <h1 class="text-center mt-3">Bienvenue sur mon blog dédié au code !</h1>
+
+    <p class="text-center">Je suis passionné(e) par le développement informatique et j'ai créé ce blog pour partager avec vous mes connaissances et mes expériences en matière de programmation.</p>
+    <hr>
+
+    <h2 class="text-center mb-3">Voici la liste des 10 derniers articles :</h2>
+
+<div class="card-container">
+    {% for article in lastArticle %}
+        <div class="card">
+            <a href="{{ path('app_article_slug', {'slug': article.slug}) }}" class="card-title">{{ article.title }}</a>
+
+            <div class="card-info">
+                <p class="card-text">{{ article.content|slice(0, 50) ~ '...' }}</p>
+                <p class="card-date">Crée :{{ article.createdAt | date('d-m-Y') }} - Mise à Jour : {{ article.updatedAt | date('d-m-Y') }}</p>
+                <p class="card-author">Par {{ article.author }}</p>
+                <p class="card-category">Catégorie : {{ article.category }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
 
 {% endblock %}

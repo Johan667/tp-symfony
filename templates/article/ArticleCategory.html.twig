@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="text-center">Articles de la catégorie {{ category.name }}</h1>
+
+    <ul>
+        {% for article in articles %}
+            <li>{{ article.title }} <a href="{{ path('app_article_slug', {'slug': article.slug}) }}"><i class="fa-solid fa-eye"></i></a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

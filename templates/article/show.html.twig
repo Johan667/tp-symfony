@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+    <h1 class="text-center mt-3">{{ article.title }}</h1>
+    <h2 class="text-center"> Par {{ article.author }}</h2>
+
+    <p>Publié le {{ article.createdAt|date('d-m-Y') }}, Dernière mise à jour le {{ article.updatedAt|date('d-m-Y') }}</p>
+    <p>Catégorie : {{ article.category }}</p>
+{#    <img src="{{ asset('uploads/' ~ article.image) }}" alt="{{ article.title }}">#}
+    <p class="text-center">{{ article.content|raw }}</p>
+    <hr>
+    <h2 class="text-center">Commentaires</h2>
+
+    {% for comment in comments %}
+        <p class="text-center">{{ comment.content }} - Par {{ comment.author }}</p>
+
+    {% endfor %}
+
+    {{ form_start(commentForm) }}
+    {{ form_end(commentForm) }}
+{% endblock %}
