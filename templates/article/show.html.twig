@@ -10,6 +10,9 @@
     <p>Catégorie : {{ article.category }}</p>
 {#    <img src="{{ asset('uploads/' ~ article.image) }}" alt="{{ article.title }}">#}
     <p class="text-center">{{ article.content|raw }}</p>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_article_delete', {'id': article.id }) }}">Supprimer</a>
+    {% endif %}
     <hr>
     <h2 class="text-center">Commentaires</h2>
 

@@ -45,7 +45,7 @@ class Article
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $featuredImage = null;
 
-    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class)]
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class, cascade:["remove"])]
     private Collection $comments;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]

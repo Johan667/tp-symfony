@@ -70,6 +70,14 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    #[Route('article/delete/{id}', name: 'app_article_delete')]
+    public function delete(Request $request, Article $article): Response
+    {
+        $this->entityManager->remove($article);
+        $this->entityManager->flush();
+        return $this->redirectToRoute('app_home');
+    }
+
     #[Route('/article/search', name: 'article_search')]
     public function searchArticle(Request $request): Response
     {
