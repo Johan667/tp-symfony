@@ -41,14 +41,15 @@ class Article
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
-    #[ORM\ManyToOne(inversedBy: 'articles')]
-    private ?Category $category = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $featuredImage = null;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class)]
     private Collection $comments;
+
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    private ?Category $category = null;
 
     public function __construct()
     {
@@ -162,17 +163,6 @@ class Article
         return $this;
     }
 
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
 
     public function getFeaturedImage(): ?string
     {
@@ -212,6 +202,18 @@ class Article
                 $comment->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
