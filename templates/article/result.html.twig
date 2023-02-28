@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Codeur Libre | Résultat de votre recherche{% endblock %}
+
+{% block body %}
+
+    <h1 class="text-center mb-3">Resultat</h1>
+
+
+    {% for article in articles %}
+        <div class="article">
+            <h2>{{ article.title }} <a href="{{ path('app_article_slug', {'slug': article.slug}) }}"><i class="fa-solid fa-eye"></i></a></h2>
+            <p>{{ article.content }}</p>
+        </div>
+    {% endfor %}
+
+
+{% endblock %}

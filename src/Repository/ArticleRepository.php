@@ -49,6 +49,23 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findBySearch(string $searchQuery)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder->select('a')
+            ->from('App\Entity\Article', 'a')
+            ->where('a.title LIKE :searchQuery')
+            ->orWhere('a.content LIKE :searchQuery')
+            ->orWhere('a.category = :searchQuery')
+            ->orWhere('a.author = :searchQuery')
+            ->setParameter('searchQuery', '%' . $searchQuery . '%');
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+
 //    /**
 //     * @return Article[] Returns an array of Article objects
 //     */

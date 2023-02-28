@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Category;
 use App\Entity\Comment;
 use App\Form\CommentType;
+use App\Form\SearchFormType;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -28,16 +29,40 @@ class ArticleController extends AbstractController
     public function index(): Response
     {
         $articles = $this->entityManager->getRepository(Article::class)->findAll();
+
         return $this->render('article/index.html.twig', [
             'articles'=>$articles,
         ]);
     }
 
+    #[Route('/article/search', name: 'article_search')]
+    public function searchArticle(Request $request): Response
+    {
+        $search = $this->createForm(SearchFormType::class);
+        $search->handleRequest($request);
+
+        if ($search->isSubmitted() && $search->isValid()) {
+            $searchQuery = $search->get('field_name')->getData();
+
+            $articles = $this->entityManager->getRepository(Article::class)->findBySearch($searchQuery);
+
+            return $this->render('article/result.html.twig', [
+                'articles'=>$articles
+            ]);
+
+        }
+
+        return $this->render('article/search.html.twig', [
+            'search' => $search->createView(),
+        ]);
+    }
+
+
     /**
      * @Route("/articles/category/{category}", name="app_article_by_category")
      * @ParamConverter("category", class="App\Entity\Category")
      */
-    public function articlesByCategory(Category $category)
+    public function articlesByCategory(Category $category): Response
     {
         $articles = $this->entityManager
             ->getRepository(Article::class)
@@ -85,12 +110,4 @@ class ArticleController extends AbstractController
         ]);
     }
 
-
-    #[Route('/article', name: 'app_article_search')]
-    public function searchArticle(): Response
-    {
-        return $this->render('article/search.html.twig', [
-
-        ]);
-    }
 }

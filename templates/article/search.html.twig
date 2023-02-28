@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Codeur Libre | Rechercher un article{% endblock %}
+
+{% block body %}
+
+    <h1 class="text-center">Rechercher un article</h1>
+    <p class="text-center">Ici vous pouvez rechercher un article par son titre, contenu, categorie ou auteur.</p>
+
+
+{{ form_start(search) }}
+{{ form_end(search) }}
+
+
+{% endblock %}

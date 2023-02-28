@@ -31,7 +31,7 @@
                     <a class="nav-link" href="{{ path('app_article') }}">Tous les Article</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_article_search') }}">Rechercher un Article</a>
+                    <a class="nav-link" href="{{ path('article_search') }}">Rechercher un Article</a>
                 </li>
                 {% if app.user %}
                     <li class="nav-item">
@@ -54,6 +54,7 @@
         </div>
     </div>
 </nav>
+
 {% block body %}{% endblock %}
 </body>
 </html>

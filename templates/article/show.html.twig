@@ -17,7 +17,10 @@
         <p class="text-center">{{ comment.content }} - Par {{ comment.author }}</p>
 
     {% endfor %}
-
+    {% if app.user %}
     {{ form_start(commentForm) }}
     {{ form_end(commentForm) }}
+    {% else %}
+    Veuillez <a href="{{ path('app_login') }}">vous connecter pour écrire un commentaire</a>
+    {% endif %}
 {% endblock %}
