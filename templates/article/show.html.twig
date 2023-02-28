@@ -14,7 +14,11 @@
     <h2 class="text-center">Commentaires</h2>
 
     {% for comment in comments %}
-        <p class="text-center">{{ comment.content }} - Par {{ comment.author }}</p>
+        <p class="text-center">{{ comment.content }} - Par {{ comment.author }} -
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_comment_delete', {'id': comment.id }) }}">Supprimer</a>
+            {% endif %}</p>
+
 
     {% endfor %}
     {% if app.user %}
